@@ -1,0 +1,93 @@
+<link rel="import" href="../core-collapse/core-collapse.html">
+
+<polymer-element name="unspoiled-media-event-card">
+
+  <template>
+    <style>    
+      :host {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      #core_selector {
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        position: absolute;
+      }
+      #star1 {
+        height: 48px;
+        width: 48px;
+      }
+      #star4 {
+        height: 48px;
+        width: 48px;
+      }
+      #star3 {
+        height: 48px;
+        width: 48px;
+      }
+      core-icon:hover {
+        color: rgb(0, 0, 0);
+      }
+      #star5 {
+        height: 48px;
+        width: 48px;
+      }
+      #star2 {
+        height: 48px;
+        width: 48px;
+      }
+    </style>
+    <div id="description" on-tap="{{ toggle }}">
+    	Loading...
+    </div>
+    <core-collapse id="extended" class="core-collapse-closed">
+      <div>
+        <span>Shown on</span>
+        <span>{{ mediaevent.shown }}</span>
+      </div>
+      <div>
+        <span>Occurred on </span>
+        <span>{{ mediaevent.occurred }}</span>
+      </div>
+    </core-collapse>
+  </template>
+
+  <script>
+
+    Polymer('unspoiled-rating', {
+      toggle: function (){
+        this.$.extended.toggle();
+      },
+      mediaevent: {
+        "nouns": [
+          1,
+          2
+        ],
+        "description": "{Frodo} goes to {Mt. Doom}.",
+        "shown": "4.14.4", //TODO render dates
+        "occurred": "3.31.3"
+      },
+      ready: function () {
+        this.$.description.innerHTML = this.mediaevent.description;
+        var me = this.mediaevent;
+        var matchNum = 0;
+				var div = "<div class='event'>";
+				if (false)
+					div = "<div class='invalidated event'>";
+				this.$.description.innerHTML = div
+					+ me.description.replace(/{.*?}/g, function(match, number) {
+						var nid = me.nouns[matchNum];
+						matchNum++;
+						return "<a href='nouns.jsp?id=" + nid + "' target='_top'>"
+							+ match.substring(1, match.length - 1) + "</a>";
+					}) + "</div>";
+      }
+    });
+
+  </script>
+
+</polymer-element>
